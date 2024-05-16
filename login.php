@@ -1,6 +1,6 @@
 <?php
 
-    require_once 'config/auth.php';
+    require_once 'utils/auth.php';
 
     $errores = [];
 
@@ -14,7 +14,8 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : null;
         $contrasena = isset($_POST['contrasena']) ? trim($_POST['contrasena']) : null;
-    
+        $recordar = isset($_POST['recuerdame']) ? true : false;
+
         if (!empty($usuario) && !empty($contrasena)) {
             $login_exitoso = iniciarSesion($usuario, $contrasena); 
         
@@ -25,6 +26,15 @@
             if (empty($errores)) {
                 session_start();
                 $_SESSION['usuario'] = $usuario;
+
+                if ($recordar) {
+                    $token = generarToken();
+                    $expiracion = time() + TIEMPO_EXPIRACION_RECUERDAME;
+
+                    guardarToken($token, $usuario['id'], date('Y-m-d H:i:s', $expiracion), 0);
+        
+                    setcookie('recuerdame', $token, $expiracion, '/');
+                }
             
                 header("Location: index.php");
                 exit();
@@ -63,8 +73,8 @@
         <?php endif; ?> <br> 
         
 
-        <input type="checkbox" name="recuerdame">
-        <label for="recuerdame" <?= isset($_POST['recuerdame']) ? 'checked' : ''; ?>> Recuérdame </label> <br> <br>
+        <input type="checkbox" name="recuerdame" <?= ($recordar) ? 'checked' : ''; ?>>
+        <label for="recuerdame"> Recuérdame </label> <br> <br>
 
         <input type="submit" name="login" value="ENTRAR"> <br> <br>
     </form>

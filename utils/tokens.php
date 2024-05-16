@@ -2,9 +2,32 @@
 
     require_once 'conexion.php';
 
-    define("NUMERO_CARACTERES_TOKEN", 16);
+    define("NUMERO_CARACTERES_TOKEN", 128);
+
+    function generarToken() {
+        return bin2hex(openssl_random_pseudo_bytes(NUMERO_CARACTERES_TOKEN));
+    }
 
     function insertarTokenRecuperacionBD($token, $email) {
+        $db = conexion();
+        $consultaIdUsuario = $db->prepare("SELECT id FROM usuarios WHERE email = :email");
+        $consultaIdUsuario->bindParam(':email', $email, PDO::PARAM_STR);
+        $consultaIdUsuario->execute();
+        $id_usuario = $consultaIdUsuario->fetchColumn();
+
+        $consultaToken = $db->prepare("INSERT INTO tokens (token, id_usuario) VALUES (:token, :id_usuario)");
+        $consultaToken->bindParam(':token', $token, PDO::PARAM_STR);
+        $consultaToken->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $resultado = $consultaToken->execute();
+
+        if ($resultado) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function insertarTokenRecuerdameBD($token, $email) {
         $db = conexion();
         $consultaIdUsuario = $db->prepare("SELECT id FROM usuarios WHERE email = :email");
         $consultaIdUsuario->bindParam(':email', $email, PDO::PARAM_STR);

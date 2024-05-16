@@ -2,8 +2,16 @@
 
     session_start();
     session_destroy();
-
-    header("location: index.php");
-    exit;
     
+    if (isset($_COOKIE['recuerdame'])) {
+        $token = $_COOKIE['recuerdame'];
+        marcarTokenConsumido($token);
+
+        unset($_COOKIE['recuerdame']);
+        setcookie('recuerdame', '', time() - 3600, '/');
+    }
+
+    header("location: login.php");
+    exit;
+
 ?>

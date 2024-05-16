@@ -1,6 +1,6 @@
 <?php
 
-    require_once 'config/auth.php';
+    require_once 'utils/auth.php';
 
     $errores = [];
 

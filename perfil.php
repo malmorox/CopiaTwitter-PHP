@@ -8,6 +8,16 @@
 
     session_start();
 
+    if (isset($_COOKIE['recuerdame'])) {
+        $token = $_COOKIE['recuerdame'];
+
+        $id_usuario = buscarIdUsuarioPorToken(substr($token, 0, -1));
+
+        if ($id_usuario !== null) {
+            $_SESSION['usuario'] = obtenerNombreUsuario($id_usuario);
+        }
+    }
+
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php");
         exit();

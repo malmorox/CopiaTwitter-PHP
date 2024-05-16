@@ -27,7 +27,7 @@
         $mail = new PHPMailer(true);
 
         try {
-            $token = bin2hex(openssl_random_pseudo_bytes(NUMERO_CARACTERES_TOKEN));
+            $token = generarToken();
 
             if (insertarTokenRecuperacionBD($token, $email)) {
                 //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
