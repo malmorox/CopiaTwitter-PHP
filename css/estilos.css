@@ -1,0 +1,165 @@
+* {
+    font-family: Arial, sans-serif;
+}
+
+.exito { 
+    color: #43CA57; 
+}
+
+.error {
+    color: red;
+}
+
+.aviso { 
+    color: #FFB900; 
+}
+
+.header-inicio {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-usuario-header {
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background-color: #1f5a86;
+}
+
+.info-usuario-header:hover {
+    background-color: #113e62;
+}
+
+.header-inicio a {
+    text-decoration: none;
+    color: white;
+}
+
+.foto-usuario-header {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ccc; 
+    
+}
+
+.foto-usuario-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nombre-usuario-header {
+    font-size: 18px;
+    font-weight: medium;
+}
+
+.todos-tweets {
+    display: flex;
+    flex-direction: column;
+}
+
+.tweet {
+    display: flex;
+    border: 1px solid #6e6e6e;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+}
+
+.tweet:first-child {
+    border-top: 2px solid #6e6e6e;
+}
+
+.tweet:last-child {
+    border-bottom: 2px solid #6e6e6e;
+}
+
+.tweet .col1 {
+    margin-right: 10px;
+}
+
+.tweet .col1 .tweet-usuario-foto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ccc; 
+}
+
+.tweet .col1 .tweet-usuario-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.tweet .col2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.tweet .col2 span:nth-child(1) {
+    font-weight: bold;
+}
+
+.tweet .col2 p {
+    margin: 5px 0;
+}
+
+.tweet .col2 span:nth-child(3) {
+    font-size: 12px;
+    color: #666;
+}
+
+.perfil-foto-usuario {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ccc; 
+}
+
+.perfil-foto-usuario img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.perfil-nombre-usuario {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.perfil-biografia-usuario {
+    margin-top: 10px;
+}
+
+.popup-fondo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.5);
+    visibility: hidden;
+    z-index: 3300;
+}
+
+.popup-editar-perfil {
+    padding: 20px;
+    background: #F8F8F8;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+}
