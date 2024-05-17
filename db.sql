@@ -21,6 +21,8 @@ CREATE TABLE tweets (
 CREATE TABLE tokens (
     token VARCHAR(255) PRIMARY KEY,
     id_usuario INT NOT NULL,
+    fecha_validez DATETIME NOT NULL,
+    consumido BOOLEAN NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 

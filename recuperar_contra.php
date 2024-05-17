@@ -1,6 +1,6 @@
 <?php
 
-    require_once 'utils/correo.php';
+    require_once 'utils/init.php';
 
     $error = false;
 

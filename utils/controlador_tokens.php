@@ -1,6 +1,6 @@
 <?php
 
-    require_once 'conexion.php';
+    require_once 'init.php';
 
     define("NUMERO_CARACTERES_TOKEN", 128);
 
@@ -27,7 +27,7 @@
         }
     }
 
-    function insertarTokenRecuerdameBD($token, $email) {
+    function insertarTokenRecuerdameBD($token, $id_usuario, $expiracion, $consumido) {
         $db = conexion();
         $consultaIdUsuario = $db->prepare("SELECT id FROM usuarios WHERE email = :email");
         $consultaIdUsuario->bindParam(':email', $email, PDO::PARAM_STR);

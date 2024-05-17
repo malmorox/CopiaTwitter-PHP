@@ -1,6 +1,7 @@
 <?php
 
-    session_start();
+    require_once 'utils/init.php';
+
     session_destroy();
     
     if (isset($_COOKIE['recuerdame'])) {

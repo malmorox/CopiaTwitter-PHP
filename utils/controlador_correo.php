@@ -1,7 +1,6 @@
 <?php
 
-    require_once 'conexion.php';
-    require_once 'tokens.php';
+    require_once 'init.php';
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;

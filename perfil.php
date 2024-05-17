@@ -1,7 +1,6 @@
 <?php
 
-    require_once 'config/usuario.php';
-    require_once 'config/tweets.php';
+    require_once 'utils/init.php';
     require_once 'Tweet.php';
 
     $errores = [];

@@ -1,7 +1,6 @@
 <?php
 
-    require_once 'utils/usuario.php';
-    require_once 'utils/tweets.php';
+    require_once 'utils/init.php';
     require_once 'Tweet.php';
 
     session_start();

@@ -1,6 +1,6 @@
 <?php
 
-    require_once 'utils/auth.php';
+    require_once 'utils/init.php';
 
     $errores = [];
 
@@ -27,11 +27,13 @@
                 session_start();
                 $_SESSION['usuario'] = $usuario;
 
+                $id_usuario = obtenerInformacionDelUsuario($usuario);
+
                 if ($recordar) {
                     $token = generarToken();
                     $expiracion = time() + TIEMPO_EXPIRACION_RECUERDAME;
 
-                    guardarToken($token, $usuario['id'], date('Y-m-d H:i:s', $expiracion), 0);
+                    insertarTokenRecuerdameBD($token, $usuario['id'], date('Y-m-d H:i:s', $expiracion), 0);
         
                     setcookie('recuerdame', $token, $expiracion, '/');
                 }

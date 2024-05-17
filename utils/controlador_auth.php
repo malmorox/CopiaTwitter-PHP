@@ -1,6 +1,6 @@
 <?php
 
-    require_once 'conexion.php';
+    require_once 'init.php';
 
     function registrarUsuario($usuario, $contrasena, $email) {
         $db = conexion();

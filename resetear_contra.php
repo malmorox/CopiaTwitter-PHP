@@ -1,5 +1,6 @@
 <?php
 
+    require_once 'utils/init.php';
     require_once 'config/tokens.php';
 
     $errores = [];
