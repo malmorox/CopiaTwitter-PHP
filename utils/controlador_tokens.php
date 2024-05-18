@@ -2,14 +2,12 @@
 
     require_once 'init.php';
 
-    define("NUMERO_CARACTERES_TOKEN", 128);
-
     function generarToken() {
-        return bin2hex(openssl_random_pseudo_bytes(NUMERO_CARACTERES_TOKEN));
+        return bin2hex(openssl_random_pseudo_bytes(NUMERO_CARACTERES_TOKEN_PREDETERMINADO));
     }
 
     function insertarTokenRecuperacionBD($token, $email) {
-        $db = conexion();
+        global $db;
         $consultaIdUsuario = $db->prepare("SELECT id FROM usuarios WHERE email = :email");
         $consultaIdUsuario->bindParam(':email', $email, PDO::PARAM_STR);
         $consultaIdUsuario->execute();
@@ -28,7 +26,7 @@
     }
 
     function insertarTokenRecuerdameBD($token, $id_usuario, $expiracion, $consumido) {
-        $db = conexion();
+        global $db;
         $consultaIdUsuario = $db->prepare("SELECT id FROM usuarios WHERE email = :email");
         $consultaIdUsuario->bindParam(':email', $email, PDO::PARAM_STR);
         $consultaIdUsuario->execute();
@@ -46,8 +44,8 @@
         }
     }
 
-    function validarTokenReseteo($token) {
-        $db = conexion();
+    function validarTokenRecuperacion($token) {
+        global $db;
         $consulta = $db->prepare("SELECT * FROM tokens WHERE token = :token");
         $consulta->bindParam(':token', $token, PDO::PARAM_STR);
         $consulta->execute();
@@ -61,7 +59,7 @@
     }
 
     function resetearContrasena($token, $nueva_contrasena) {
-        $db = conexion();
+        global $db;
         $consultaIdUsuario = $db->prepare("SELECT id_usuario FROM tokens WHERE token = :token");
         $consultaIdUsuario->bindParam(':token', $token, PDO::PARAM_STR);
         $consultaIdUsuario->execute();
@@ -77,7 +75,7 @@
     }
 
     function eliminarTokenBD($token) {
-        $db = conexion();
+        global $db;
         $consulta = $db->prepare("DELETE FROM tokens WHERE token = :token");
         $consulta->bindParam(':token', $token, PDO::PARAM_STR);
         $consulta->execute();

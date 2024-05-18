@@ -9,7 +9,7 @@
     require 'vendor/autoload.php';
 
     function validarCorreo($email) {
-        $db = conexion();
+        global $db;
         $consulta = $db->prepare("SELECT * FROM usuarios WHERE email = :email");
         $consulta->bindParam(':email', $email, PDO::PARAM_STR);
         $consulta->execute();

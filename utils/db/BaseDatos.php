@@ -9,7 +9,7 @@ Por Jorge Dueñas Lerín
 */
 
 
-class DWESBaseDatos {
+class BaseDatos {
 
     private $conexion = null;
     private $sentencia = null;
@@ -20,6 +20,10 @@ class DWESBaseDatos {
     */
 
     private static $instanciaUnica = null;
+
+    const FETCH_TODOS = 'todos';
+    const FETCH_FILA = 'fila';
+    const FETCH_COLUMNA = 'columna';
 
     private function __construct() { } // Solo se puede crear desde el método obtenerInstancia
 
@@ -90,17 +94,17 @@ class DWESBaseDatos {
         $this->executed = $this->sentencia->execute($parametros);
     }
 
-    // Si no se proporciona ningun parametro al llamar a la función el valor predeterminado será 'todos'
-    public function obtenDatos($tipo = 'todos') {
+    // Si no se proporciona ningun parametro al llamar a la función hará un fetchAll   
+    public function obtenDatos($tipo = self::FETCH_TODOS) {
         switch ($tipo) {
-            case 'todos':
+            case self::FETCH_TODOS:
                 return $this->sentencia->fetchAll();
-            case 'fila':
+            case self::FETCH_FILA:
                 return $this->sentencia->fetch();
-            case 'columna':
+            case self::FETCH_COLUMNA:
                 return $this->sentencia->fetchColumn();
             default:
-                throw new InvalidArgumentException("Tipo de dato no valido: $tipo");
+                throw new InvalidArgumentException("Parametro introducido no valido: $tipo");
         }
     }
 

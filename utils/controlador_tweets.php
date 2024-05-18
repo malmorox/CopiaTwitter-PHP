@@ -3,17 +3,17 @@
     require_once 'init.php';
 
     function publicarTweet($tweet, $id_usuario) {
-        $db = conexion();
-        $consulta = $db->prepare("INSERT INTO tweets (id_usuario, mensaje, fecha_hora) VALUES (:id_usuario, :mensaje, NOW())");
-        $consulta->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-        $consulta->bindParam(':mensaje', $tweet, PDO::PARAM_STR);
-        $resultado = $consulta->execute();
+        global $db;
 
-        return $resultado;
+        $sql = "INSERT INTO tweets (id_usuario, mensaje, fecha_hora) VALUES (:id_usuario, :mensaje, NOW())";
+        $db->ejecuta($sql, [$id_usuario, $tweet]);
+
+        return $db->getExecuted();
     }
 
     function mostrarTweets($id_usuario = null) {
-        $db = conexion();
+        global $db;
+
         $consultaTweets = "
             SELECT 
                 u.usuario AS nombre_usuario,
@@ -22,14 +22,17 @@
                 t.fecha_hora AS fecha_hora
             FROM tweets t 
             INNER JOIN usuarios u ON t.id_usuario = u.id";
+            
         if ($id_usuario !== null) {
-            $consulta = $db->prepare($consultaTweets . " WHERE t.id_usuario = :id_usuario ORDER BY t.fecha_hora DESC");
-            $consulta->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+            $sql = $consultaTweets . " WHERE t.id_usuario = :id_usuario ORDER BY t.fecha_hora DESC";
+            $parametros = [$id_usuario];
         } else {
-            $consulta = $db->prepare($consultaTweets . " ORDER BY t.fecha_hora DESC");
+            $sql = $consultaTweets . " ORDER BY t.fecha_hora DESC";
+            $parametros = [];
         }
-        $consulta->execute();
-        $tweets = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        $db->ejecuta($sql, $parametros);
+        $tweets = $db->obtenDatos(BaseDatos::FETCH_TODOS);
 
         return $tweets;
     }

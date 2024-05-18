@@ -3,7 +3,7 @@
     require_once 'init.php';
 
     function obtenerInformacionDelUsuario($usuario) {
-        $db = conexion();
+        global $db;
         $consulta = $db->prepare("SELECT * FROM usuarios WHERE usuario = :usuario");
         $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
         $consulta->execute();
@@ -13,7 +13,7 @@
     }
 
     function editarInfoUsuario($nuevo_valor, $tipo_info, $id_usuario) {
-        $db = conexion();
+        global $db;
         $consulta = null;
         $resultado = false;
 
