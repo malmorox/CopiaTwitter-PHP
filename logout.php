@@ -5,10 +5,10 @@
     session_destroy();
     
     if (isset($_COOKIE['recuerdame'])) {
-        $token = $_COOKIE['recuerdame'];
-        marcarTokenConsumido($token);
+        $valor_cookie = $_COOKIE['recuerdame'];
+        //marcarTokenConsumido($valor_cookie);
 
-        unset($_COOKIE['recuerdame']);
+        unset($valor_cookie);
         setcookie('recuerdame', '', time() - 3600, '/');
     }
 

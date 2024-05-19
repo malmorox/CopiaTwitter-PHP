@@ -30,7 +30,7 @@ class BaseDatos {
     public static function obtenerInstancia() {
         if (self::$instanciaUnica == null)
         {
-            self::$instanciaUnica = new DWESBaseDatos();
+            self::$instanciaUnica = new BaseDatos();
         }
 
         return self::$instanciaUnica;

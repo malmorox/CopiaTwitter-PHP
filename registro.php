@@ -82,7 +82,7 @@
         <input type="text" name="email" value="<?= isset($email) ? htmlspecialchars($email) : ''; ?>"> <br>
         <?php if (isset($errores['email'])): ?>
             <span class="error"><?= $errores['email']; ?> </span>
-        <?php endif; ?>
+        <?php endif; ?> <br>
 
         <input type="submit" value="Registrar"> <br> <br>
     </form>

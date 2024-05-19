@@ -4,8 +4,6 @@
 
     $errores = [];
 
-    session_start();
-
     if (isset($_SESSION['usuario'])) {
         header("Location: index.php");
         exit();
@@ -24,16 +22,15 @@
             }
         
             if (empty($errores)) {
-                session_start();
                 $_SESSION['usuario'] = $usuario;
 
-                $id_usuario = obtenerInformacionDelUsuario($usuario);
+                $info_usuario = obtenerInformacionDelUsuario($usuario);
 
                 if ($recordar) {
                     $token = generarToken();
-                    $expiracion = time() + TIEMPO_EXPIRACION_RECUERDAME;
+                    $expiracion = time() + TIEMPO_EXPIRACION_PREDETERMINADO;
 
-                    insertarTokenRecuerdameBD($token, $usuario['id'], date('Y-m-d H:i:s', $expiracion), 0);
+                    insertarTokenRecuerdameBD($token, $info_usuario['id'], date('Y-m-d H:i:s', $expiracion), VALOR_TOKEN_CONSUMIDO_PREDETERMINADO);
         
                     setcookie('recuerdame', $token, $expiracion, '/');
                 }
@@ -75,7 +72,7 @@
         <?php endif; ?> <br> 
         
 
-        <input type="checkbox" name="recuerdame" <?= ($recordar) ? 'checked' : ''; ?>>
+        <input type="checkbox" name="recuerdame" <?= isset($recordar) && $recordar ? 'checked' : ''; ?>>
         <label for="recuerdame"> Recuérdame </label> <br> <br>
 
         <input type="submit" name="login" value="ENTRAR"> <br> <br>

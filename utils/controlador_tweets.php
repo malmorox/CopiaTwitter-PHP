@@ -7,8 +7,6 @@
 
         $sql = "INSERT INTO tweets (id_usuario, mensaje, fecha_hora) VALUES (:id_usuario, :mensaje, NOW())";
         $db->ejecuta($sql, [$id_usuario, $tweet]);
-
-        return $db->getExecuted();
     }
 
     function mostrarTweets($id_usuario = null) {

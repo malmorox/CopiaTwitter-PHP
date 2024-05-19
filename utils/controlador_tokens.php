@@ -6,6 +6,20 @@
         return bin2hex(openssl_random_pseudo_bytes(NUMERO_CARACTERES_TOKEN_PREDETERMINADO));
     }
 
+    function buscarIdUsuarioPorToken($token) {
+        global $db;
+
+        $sql = "SELECT id_usuario FROM tokens WHERE token = :token AND fecha_validez > NOW()";
+        $db->ejecuta($sql, $token);
+        $id_usuario = $db->obtenDatos(BaseDatos::FETCH_COLUMNA);
+    
+        if (empty($id_usuario)) {
+            return null;
+        }
+    
+        return $id_usuario;
+    }
+
     function insertarTokenRecuperacionBD($token, $email) {
         global $db;
         
@@ -17,43 +31,31 @@
             return false;
         }
 
-        $sqlInsertarToken = "INSERT INTO tokens (token, id_usuario) VALUES (:token, :id_usuario)";
-        $db->ejecuta($sqlInsertToken, [$token, $id_usuario]);
+        $expiracion = time() + TIEMPO_EXPIRACION_PREDETERMINADO;
+        $consumido = VALOR_TOKEN_CONSUMIDO_PREDETERMINADO;
+
+        $sqlInsertarToken = "INSERT INTO tokens (token, id_usuario, fecha_validez, consumido) VALUES (:token, :id_usuario, :expiracion, :consumido)";
+        $db->ejecuta($sqlInsertToken, [$token, $id_usuario, $expiracion, $consumido]);
 
         return $db->getExecuted();
     }
 
     function insertarTokenRecuerdameBD($token, $id_usuario, $expiracion, $consumido) {
         global $db;
-        $consultaIdUsuario = $db->prepare("SELECT id FROM usuarios WHERE email = :email");
-        $consultaIdUsuario->bindParam(':email', $email, PDO::PARAM_STR);
-        $consultaIdUsuario->execute();
-        $id_usuario = $consultaIdUsuario->fetchColumn();
-
-        $consultaToken = $db->prepare("INSERT INTO tokens (token, id_usuario) VALUES (:token, :id_usuario)");
-        $consultaToken->bindParam(':token', $token, PDO::PARAM_STR);
-        $consultaToken->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-        $resultado = $consultaToken->execute();
-
-        if ($resultado) {
-            return true;
-        } else {
-            return false;
-        }
+        
+        $sql = "INSERT INTO tokens (token, id_usuario, fecha_validez, consumido) VALUES (:token, :id_usuario, :expiracion, :consumido)";
+        $db->ejecuta($sql, [$token, $id_usuario, $expiracion, $consumido]);
     }
 
     function validarTokenRecuperacion($token) {
         global $db;
-        $consulta = $db->prepare("SELECT * FROM tokens WHERE token = :token");
-        $consulta->bindParam(':token', $token, PDO::PARAM_STR);
-        $consulta->execute();
-        $token = $consulta->fetch(PDO::FETCH_ASSOC);
-        // Si existe token retornará true, sino false
-        if ($token) {
-            return true;
-        }
+        
+        $sql = "SELECT * FROM tokens WHERE token = :token AND consumido = 0 AND fecha_validez > NOW()";
+        $db->ejecuta($sql, $token);
+        $token = $db->obtenDatos(BaseDatos::FETCH_FILA);
 
-        return false;
+        // Si existe el token y no está consumido y no ha expirado retornará true, sino false
+        return $token ? true : false;
     }
 
     function resetearContrasena($token, $nueva_contrasena) {
@@ -63,21 +65,22 @@
         $db->ejecuta($sqlIdUsuario, $token);
         $id_usuario = $db->obtenDatos(BaseDatos::FETCH_COLUMNA);
 
+        if (!$id_usuario) {
+            return false;
+        }
+
         $nueva_contrasena_hasheada = password_hash($nueva_contrasena, PASSWORD_DEFAULT);
         
-        $consultaResetear = $db->prepare("UPDATE usuarios SET contrasena = :nueva_contrasena WHERE id = :id_usuario");
-        $consultaResetear->bindParam(':nueva_contrasena', $nueva_contrasena_hasheada, PDO::PARAM_STR);
-        $consultaResetear->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-        $resultado = $consultaResetear->execute();
+        $sqlResetearContra = "UPDATE usuarios SET contrasena = :nueva_contrasena WHERE id = :id_usuario";
+        $db->ejecuta($sqlResetear, [$nueva_contrasena_hasheada, $id_usuario]);
 
-        return $resultado;
+        return $db->getExecuted();
     }
 
     function eliminarTokenBD($token) {
         global $db;
-        $consulta = $db->prepare("DELETE FROM tokens WHERE token = :token");
-        $consulta->bindParam(':token', $token, PDO::PARAM_STR);
-        $consulta->execute();
+        $sql = "DELETE FROM tokens WHERE token = :token";
+        $db->ejecuta($sql, $token);
     }
 
 ?>

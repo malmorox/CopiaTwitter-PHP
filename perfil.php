@@ -5,20 +5,9 @@
 
     $errores = [];
 
-    session_start();
-
-    if (isset($_COOKIE['recuerdame'])) {
-        $token = $_COOKIE['recuerdame'];
-
-        $id_usuario = buscarIdUsuarioPorToken(substr($token, 0, -1));
-
-        if ($id_usuario !== null) {
-            $_SESSION['usuario'] = obtenerNombreUsuario($id_usuario);
-        }
-    }
-
+    // Si no hay una sesión iniciada en este punto redirigimos a la página de inicio de sesión
     if (!isset($_SESSION['usuario'])) {
-        header("Location: index.php");
+        header("Location: login.php");
         exit();
     }
 
@@ -101,7 +90,7 @@
                 <label for="nuevo_nombre_usuario"> Nombre de usuario: </label> <br>
                 <input type="text" name="nuevo_nombre_usuario" value="<?= $usuario['usuario'] ?>"> <br> <br>
 
-                <label for="nueva_biografia_usuario"> Nueva biografía: </label> <br>
+                <label for="nueva_biografia_usuario"> Biografía: </label> <br>
                 <textarea name="nueva_biografia_usuario"><?= $usuario['biografia'] ?></textarea> <br> <br>
 
                 <input type="submit" name="guardar" value="GUARDAR CAMBIOS">
@@ -111,7 +100,7 @@
     <hr>
     <h2> Tus tweets: </h2>
     <?php if (!empty($tweets_usuario)): ?>
-        <div>
+        <div class="todos-tweets">
             <?php foreach ($tweets_usuario as $info_tweet): ?>
                 <?php $tweet = new Tweet($info_tweet['nombre_usuario'], $info_tweet['foto_usuario'], $info_tweet['tweet'], $info_tweet['fecha_hora']); ?>
                 <?= $tweet; ?>

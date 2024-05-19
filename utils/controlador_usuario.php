@@ -4,12 +4,21 @@
 
     function obtenerInformacionDelUsuario($usuario) {
         global $db;
-        $consulta = $db->prepare("SELECT * FROM usuarios WHERE usuario = :usuario");
-        $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
-        $consulta->execute();
-        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        $sql= "SELECT * FROM usuarios WHERE usuario = :usuario";
+        $db->ejecuta($sql, $usuario);
+        $usuario = $db->obtenDatos(BaseDatos::FETCH_FILA);
 
         return $usuario;
+    }
+
+    function obtenerNombreUsuarioPorId($id_usuario) {
+        global $db;
+
+        $db->ejecuta("SELECT usuario FROM usuarios WHERE id = :id", $id_usuario);
+        $nombre_usuario = $db->obtenDatos(BaseDatos::FETCH_COLUMNA);
+
+        return $nombre_usuario;
     }
 
     function editarInfoUsuario($nuevo_valor, $tipo_info, $id_usuario) {
