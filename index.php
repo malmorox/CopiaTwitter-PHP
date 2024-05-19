@@ -3,6 +3,7 @@
     require_once 'utils/init.php';
     require_once 'Tweet.php';
 
+    verificarCookieRecuerdame();
     // Si no hay una sesión iniciada en este punto redirigimos a la página de inicio de sesión
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
