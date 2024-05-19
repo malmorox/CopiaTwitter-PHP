@@ -10,16 +10,13 @@
 
     function validarCorreo($email) {
         global $db;
-        $consulta = $db->prepare("SELECT * FROM usuarios WHERE email = :email");
-        $consulta->bindParam(':email', $email, PDO::PARAM_STR);
-        $consulta->execute();
-        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $db->ejecuta($sql, $email);
+        $usuarioAsociado = $db->obtenDatos(BaseDatos::FETCH_FILA);
+        
         // Si existe el usuario asociado con ese correo retorna true, sino false
-        if ($usuario) {
-            return true;
-        }
-    
-        return false;
+        return $usuarioAsociado ? true : false;
     }
 
     function enviarCorreoRecuperacion($email) {
