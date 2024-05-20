@@ -14,7 +14,7 @@
 
         $consultaTweets = "
             SELECT 
-                u.usuario AS nombre_usuario,
+                u.nombre AS nombre_usuario,
                 u.foto_perfil AS foto_usuario,
                 t.mensaje AS tweet,
                 t.fecha_hora AS fecha_hora

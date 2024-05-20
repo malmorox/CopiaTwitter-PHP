@@ -10,7 +10,7 @@
         exit();
     }
 
-    $usuario = obtenerInformacionDelUsuario($_SESSION['usuario']);
+    $usuario = $_SESSION['usuario'];
     $todos_tweets = mostrarTweets();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["postear"])) {
@@ -39,9 +39,9 @@
         <a href="perfil.php">
             <div class="info-usuario-header">
                 <div class="foto-usuario-header">
-                    <img src="<?= $usuario['foto_perfil']; ?>" alt="Foto de perfil de <?= "@" . $usuario['usuario']; ?>">
+                    <img src="<?= $usuario['foto_perfil']; ?>" alt="Foto de perfil de <?= "@" . $usuario['nombre']; ?>">
                 </div>
-                <span class="nombre-usuario-header"> <?= "@" . $usuario['usuario']; ?></span>
+                <span class="nombre-usuario-header"> <?= "@" . $usuario['nombre']; ?></span>
             </div>
         </a>
     </header> 

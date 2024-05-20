@@ -23,9 +23,9 @@
             }
         
             if (empty($errores)) {
-                $_SESSION['usuario'] = $usuario;
-
                 $info_usuario = obtenerInformacionDelUsuario($usuario);
+                
+                $_SESSION['usuario'] = $info_usuario;
 
                 if ($recordar) {
                     $token = generarToken();

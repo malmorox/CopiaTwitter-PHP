@@ -12,7 +12,7 @@
         exit();
     }
 
-    $usuario = obtenerInformacionDelUsuario($_SESSION['usuario']);
+    $usuario = $_SESSION['usuario'];
     $tweets_usuario = mostrarTweets($usuario['id']);
     $cambio_exitoso = false;
 
@@ -20,7 +20,7 @@
         $nuevo_nombre_usuario = isset($_POST['nuevo_nombre_usuario']) ? trim($_POST['nuevo_nombre_usuario']) : null;
         $nueva_biografia_usuario = isset($_POST['nueva_biografia_usuario']) ? trim($_POST['nueva_biografia_usuario']) : null;
         
-        if (!empty($nuevo_nombre_usuario) && $nuevo_nombre_usuario !== $usuario['usuario']) {
+        if (!empty($nuevo_nombre_usuario) && $nuevo_nombre_usuario !== $usuario['nombre']) {
             $cambio_nombre_exitoso = editarInfoUsuario($nuevo_nombre_usuario, 'nombre', $usuario['id']);
             if ($cambio_nombre_exitoso) {
                 $_SESSION['usuario'] = $nuevo_nombre_usuario;
