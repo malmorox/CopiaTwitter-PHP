@@ -2,11 +2,11 @@
 
     require_once 'init.php';
 
-    function obtenerInformacionDelUsuario($usuario) {
+    function obtenerInformacionDelUsuario($nombre) {
         global $db;
 
-        $sql= "SELECT * FROM usuarios WHERE usuario = :usuario";
-        $db->ejecuta($sql, $usuario);
+        $sql= "SELECT * FROM usuarios WHERE nombre = :nombre";
+        $db->ejecuta($sql, $nombre);
         $usuario = $db->obtenDatos(BaseDatos::FETCH_FILA);
 
         return $usuario;
@@ -15,7 +15,7 @@
     function obtenerNombreUsuarioPorId($id_usuario) {
         global $db;
 
-        $db->ejecuta("SELECT usuario FROM usuarios WHERE id = :id", $id_usuario);
+        $db->ejecuta("SELECT nombre FROM usuarios WHERE id = :id", $id_usuario);
         $nombre_usuario = $db->obtenDatos(BaseDatos::FETCH_COLUMNA);
 
         return $nombre_usuario;
@@ -28,8 +28,8 @@
 
         switch ($tipo_info) {
             case 'nombre':
-                $consulta = $db->prepare("UPDATE usuarios SET usuario = :nuevo_usuario WHERE id = :id_usuario");
-                $consulta->bindParam(':nuevo_usuario', $nuevo_valor, PDO::PARAM_STR);
+                $consulta = $db->prepare("UPDATE usuarios SET nombre = :nuevo_nombre WHERE id = :id_usuario");
+                $consulta->bindParam(':nuevo_nombre', $nuevo_valor, PDO::PARAM_STR);
                 break;
             case 'biografia':
                 $consulta = $db->prepare("UPDATE usuarios SET biografia = :nueva_biografia WHERE id = :id_usuario");

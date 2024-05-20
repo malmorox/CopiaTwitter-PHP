@@ -2,22 +2,22 @@
 
     require_once 'init.php';
 
-    function registrarUsuario($usuario, $contrasena, $email) {
+    function registrarUsuario($nombre, $contrasena, $email) {
         global $db;
 
         $contrasena_hasheada = password_hash($contrasena, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO usuarios (usuario, contrasena, email) VALUES (:usuario, :contrasena, :email)";
-        $db->ejecuta($sql, [$usuario, $contrasena_hasheada, $email]);
+        $sql = "INSERT INTO usuarios (nombre, contrasena, email) VALUES (:nombre, :contrasena, :email)";
+        $db->ejecuta($sql, [$nombre, $contrasena_hasheada, $email]);
 
         // Retorna true si hace el insert y false si no lo hace
         return $db->getExecuted();
     }
 
-    function iniciarSesion($usuario, $contrasena) {
+    function iniciarSesion($nombre, $contrasena) {
         global $db;
 
-        $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
-        $db->ejecuta($sql, $usuario);
+        $sql = "SELECT * FROM usuarios WHERE nombre = :nombre";
+        $db->ejecuta($sql, $nombre);
         $usuario = $db->obtenDatos(BaseDatos::FETCH_FILA);
 
         if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {

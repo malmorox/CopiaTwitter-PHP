@@ -11,19 +11,19 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : null;
+        $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : null;
         $contrasena = isset($_POST['contrasena']) ? trim($_POST['contrasena']) : null;
         $recordar = isset($_POST['recuerdame']) ? true : false;
 
-        if (!empty($usuario) && !empty($contrasena)) {
-            $login_exitoso = iniciarSesion($usuario, $contrasena); 
+        if (!empty($nombre) && !empty($contrasena)) {
+            $login_exitoso = iniciarSesion($nombre, $contrasena); 
         
             if (!$login_exitoso) {
                 $errores['credenciales'] = "Credenciales incorrectas.";
             }
         
             if (empty($errores)) {
-                $info_usuario = obtenerInformacionDelUsuario($usuario);
+                $info_usuario = obtenerInformacionDelUsuario($nombre);
                 
                 $_SESSION['usuario'] = $info_usuario;
 
@@ -60,10 +60,10 @@
             <span class="error"> <?= $errores['credenciales']; ?> </span> <br>
         <?php endif; ?>
     <form action="" method="post">
-        <label for="usuario"> Nombre de usuario: </label> <br>
-        <input type="text" name="usuario" value="<?= isset($usuario) ? $usuario : ''; ?>"> <br>
-        <?php if (isset($errores['usuario'])): ?>
-            <span class="error"> <?= $errores['usuario']; ?> </span>
+        <label for="nombre"> Nombre de usuario: </label> <br>
+        <input type="text" name="nombre" value="<?= isset($nombre) ? $nombre : ''; ?>"> <br>
+        <?php if (isset($errores['nombre'])): ?>
+            <span class="error"> <?= $errores['nombre']; ?> </span>
         <?php endif; ?> <br> 
 
         <label for="contrasena"> Contraseña: </label> <br>

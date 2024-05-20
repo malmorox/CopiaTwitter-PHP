@@ -72,7 +72,7 @@
                     <img src="<?= $usuario['foto_perfil']; ?>" alt="">
                 <?php endif; ?>
             </div>
-            <span class="perfil-nombre-usuario"> @<?= $usuario['usuario']; ?> </span> <br>
+            <span class="perfil-nombre-usuario"> @<?= $usuario['nombre']; ?> </span> <br>
             <span class="perfil-biografia-usuario"> <?= $usuario['biografia']; ?> </span> <br>
         </section>
         <section class="perfil-editar-usuario">
@@ -89,7 +89,7 @@
                 <input type="file" name="nueva_foto_perfil"> <br> <br>
 
                 <label for="nuevo_nombre_usuario"> Nombre de usuario: </label> <br>
-                <input type="text" name="nuevo_nombre_usuario" value="<?= $usuario['usuario'] ?>"> <br> <br>
+                <input type="text" name="nuevo_nombre_usuario" value="<?= $usuario['nombre'] ?>"> <br> <br>
 
                 <label for="nueva_biografia_usuario"> Biografía: </label> <br>
                 <textarea name="nueva_biografia_usuario"><?= $usuario['biografia'] ?></textarea> <br> <br>

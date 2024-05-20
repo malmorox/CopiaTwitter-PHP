@@ -10,9 +10,9 @@
                 $valor_cookie = $_COOKIE['recuerdame'];
     
                 $id_usuario = buscarIdUsuarioPorToken($valor_cookie);
-    
+                
                 if ($id_usuario !== null) {
-                    $_SESSION['usuario'] = obtenerNombreUsuarioPorId($id_usuario);
+                    $_SESSION['usuario'] = obtenerInformacionDelUsuario(obtenerNombreUsuarioPorId($id_usuario));
                 }
             }
         }
