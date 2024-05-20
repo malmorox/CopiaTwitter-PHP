@@ -5,8 +5,9 @@
     define('PATH_BASEDATOS', 'db/');
     // Define el tiempo de expiración predeterminado para tokens/cookies/etc
     define('TIEMPO_EXPIRACION_PREDETERMINADO', 7 * 24 * 60 * 60);
+    // Define el valor predeterminado para un token consumido
     define('VALOR_TOKEN_CONSUMIDO_PREDETERMINADO', 0);
-    // Define el número de caracteres que tendrá el token
+    // Define el número de caracteres predeterminado que tendrá el token
     define("NUMERO_CARACTERES_TOKEN_PREDETERMINADO", 128);
 
     // Autoload para cargar automáticamente las clases desde el directorio de base de datos

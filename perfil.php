@@ -93,7 +93,8 @@
 
                 <label for="nueva_biografia_usuario"> Biografía: </label> <br>
                 <textarea name="nueva_biografia_usuario"><?= $usuario['biografia'] ?></textarea> <br> <br>
-
+                
+                <button id="boton-cancelar-cambios"> Cancelar </button>
                 <input type="submit" name="guardar" value="GUARDAR CAMBIOS">
             </form>
         </div>
