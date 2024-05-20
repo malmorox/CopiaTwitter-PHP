@@ -8,7 +8,7 @@
     // Define el valor predeterminado para un token consumido
     define('VALOR_TOKEN_CONSUMIDO_PREDETERMINADO', 0);
     // Define el número de caracteres predeterminado que tendrá el token
-    define("NUMERO_CARACTERES_TOKEN_PREDETERMINADO", 128);
+    define("NUMERO_CARACTERES_TOKEN_PREDETERMINADO", 64);
 
     // Autoload para cargar automáticamente las clases desde el directorio de base de datos
     spl_autoload_register(function ($clase) {
