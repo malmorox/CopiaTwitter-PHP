@@ -11,7 +11,7 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : null;
+        $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : null;
         $contrasena = isset($_POST['contrasena']) ? trim($_POST['contrasena']) : null;
         $confirmar_contrasena = isset($_POST['confirmar_contrasena']) ? trim($_POST['confirmar_contrasena']) : null;
         $email = isset($_POST['email']) ? trim($_POST['email']) : null;
@@ -37,11 +37,12 @@
         }
     
         if (empty($errores)) {
-            $registro_exitoso = registrarUsuario($usuario, $contrasena, $email);
+            $registro_exitoso = registrarUsuario($nombre, $contrasena, $email);
     
             if ($registro_exitoso) {
-                session_start();
-                $_SESSION['usuario'] = $usuario;
+                $info_usuario = obtenerInformacionDelUsuario($nombre);
+                
+                $_SESSION['usuario'] = $info_usuario;
                 
                 header("Location: index.php");
                 exit();
@@ -66,10 +67,10 @@
         <p class="error"><?= $errores['registro']; ?></p>
     <?php endif; ?>
     <form action="registro.php" method="post">
-        <label for="usuario"> Nombre de usuario: </label> <br>
-        <input type="text" name="usuario" value="<?= isset($usuario) ? htmlspecialchars($usuario) : ''; ?>"> <br>
-        <?php if (isset($errores['usuario'])): ?>
-            <span class="error"><?= $errores['usuario']; ?> </span>
+        <label for="nombre"> Nombre de usuario: </label> <br>
+        <input type="text" name="nombre" value="<?= isset($nombre) ? htmlspecialchars($nombre) : ''; ?>"> <br>
+        <?php if (isset($errores['nombre'])): ?>
+            <span class="error"><?= $errores['nombre']; ?> </span>
         <?php endif; ?> <br>
 
         <label for="contrasena"> Contraseña: </label> <br>

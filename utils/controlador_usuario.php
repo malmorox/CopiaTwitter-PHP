@@ -23,32 +23,37 @@
 
     function editarInfoUsuario($nuevo_valor, $tipo_info, $id_usuario) {
         global $db;
-        $consulta = null;
+
+        $sql = null;
         $resultado = false;
 
         switch ($tipo_info) {
-            case 'nombre':
-                $consulta = $db->prepare("UPDATE usuarios SET nombre = :nuevo_nombre WHERE id = :id_usuario");
-                $consulta->bindParam(':nuevo_nombre', $nuevo_valor, PDO::PARAM_STR);
+            case MODIFICAR_TIPO_INFO_NOMBRE:
+                $sql = "UPDATE usuarios SET nombre = :nuevo_nombre WHERE id = :id_usuario";
+                $parametros = [$nuevo_valor];
                 break;
-            case 'biografia':
-                $consulta = $db->prepare("UPDATE usuarios SET biografia = :nueva_biografia WHERE id = :id_usuario");
-                $consulta->bindParam(':nueva_biografia', $nuevo_valor, PDO::PARAM_STR);
+            case MODIFICAR_TIPO_INFO_BIOGRAFIA:
+                $sql = "UPDATE usuarios SET biografia = :nueva_biografia WHERE id = :id_usuario";
+                $parametros = [$nuevo_valor];
                 break;
-            case 'foto_perfil':
+            case MODIFICAR_TIPO_INFO_FOTOPERFIL:
                 $ruta_imagen = guardarFotoDePerfil($nuevo_valor, $id_usuario);
                 if ($ruta_imagen) {
-                    $consulta = $db->prepare("UPDATE usuarios SET foto_perfil = :ruta_imagen WHERE id = :id_usuario");
-                    $consulta->bindParam(':ruta_imagen', $ruta_imagen, PDO::PARAM_STR);
-                } 
+                    $sql = "UPDATE usuarios SET foto_perfil = :ruta_imagen WHERE id = :id_usuario";
+                    $parametros = [$ruta_imagen];
+                } else {
+                    return $resultado;
+                }
                 break;
             default:
                 return $resultado;
         }
 
-        if ($consulta) {
-            $consulta->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-            $resultado = $consulta->execute();
+        if ($sql) {
+            $parametros[] = $id_usuario;
+
+            $db->ejecuta($sql, $parametros);
+            $resultado = $db->getExecuted();
         }
 
         return $resultado;

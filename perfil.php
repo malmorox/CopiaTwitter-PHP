@@ -16,42 +16,45 @@
     $tweets_usuario = mostrarTweets($usuario['id']);
     $cambio_exitoso = false;
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar-cambios'])) {
         $nuevo_nombre_usuario = isset($_POST['nuevo_nombre_usuario']) ? trim($_POST['nuevo_nombre_usuario']) : null;
         $nueva_biografia_usuario = isset($_POST['nueva_biografia_usuario']) ? trim($_POST['nueva_biografia_usuario']) : null;
+
+        $cambio_nombre_exitoso = false;
+        $cambio_biografia_exitoso = false;
+        $cambio_foto_exitoso = false;
         
         if (!empty($nuevo_nombre_usuario) && $nuevo_nombre_usuario !== $usuario['nombre']) {
-            $cambio_nombre_exitoso = editarInfoUsuario($nuevo_nombre_usuario, 'nombre', $usuario['id']);
-            if ($cambio_nombre_exitoso) {
-                $_SESSION['usuario'] = $nuevo_nombre_usuario;
-                $cambio_exitoso = true;
-            } else {
-                $mensaje_error = "Error al modificar el nombre de usuario";
-            }
+            $cambio_nombre_exitoso = editarInfoUsuario($nuevo_nombre_usuario, MODIFICAR_TIPO_INFO_NOMBRE, $usuario['id']);
         }
     
         if (!empty($nueva_biografia_usuario) && $nueva_biografia_usuario !== $usuario['biografia']) {
-            $cambio_biografia_exitoso = editarInfoUsuario($nueva_biografia_usuario, 'biografia', $usuario['id']);
-            if ($cambio_biografia_exitoso) {
-                $cambio_exitoso = true;
-            } else {
-                $mensaje_error = "Error al modificar la biografia";
-            }
+            $cambio_biografia_exitoso = editarInfoUsuario($nueva_biografia_usuario, MODIFICAR_TIPO_INFO_BIOGRAFIA, $usuario['id']);
         }
 
         if (isset($_FILES['nueva_foto_perfil']) && $_FILES['nueva_foto_perfil']['error'] === UPLOAD_ERR_OK) {
-            $cambio_foto_exitoso = editarInfoUsuario($_FILES['nueva_foto_perfil'], 'foto_perfil', $usuario['id']);
-            if ($cambio_foto_exitoso) {
-                $cambio_exitoso = true;
-            } else {
-                $mensaje_error = "Error al modificar la foto de perfil";
-            }
+            $cambio_foto_exitoso = editarInfoUsuario($_FILES['nueva_foto_perfil'], MODIFICAR_TIPO_INFO_FOTOPERFIL, $usuario['id']);
+        }
+
+        if ($cambio_nombre_exitoso || $cambio_biografia_exitoso || $cambio_foto_exitoso) {
+            $cambio_exitoso = true;
+        } else if ($nuevo_nombre_usuario === $usuario['nombre'] && 
+                    $nueva_biografia_usuario === $usuario['biografia'] &&
+                    (!isset($_FILES['nueva_foto_perfil']) || $_FILES['nueva_foto_perfil']['error'] === UPLOAD_ERR_NO_FILE)) {
+            echo "<script>cerrarPopup();</script>";
+        } else {
+            $mensaje_error = "Ha habido un problema al modificar el perfil";
         }
 
         if ($cambio_exitoso) {
-            header("Location: perfil.php");
-        } elseif (!empty($error_mensaje)) {
-            $error_mensaje = "Ha habido un problema al modificar el perfil.";
+            if ($cambio_nombre_exitoso) {
+                $usuario['nombre'] = $nuevo_nombre_usuario;
+            }
+            $usuario = obtenerInformacionDelUsuario($usuario['nombre']);
+            $_SESSION['usuario'] = $usuario;
+
+            header("refresh:0.5");
+            die();
         }
     }
 
@@ -79,11 +82,12 @@
             <button id="boton-editar-perfil"> Editar perfil </button>
         </section>
     </div>
-    <?php if (isset($error_mensaje)): ?>
-        <span class="error"> <?= $error_mensaje ?> </span>
-    <?php endif; ?>
+    
     <div class="popup-fondo">
         <div class="popup-editar-perfil">
+            <?php if (isset($mensaje_error)): ?>
+                <span class="error"> <?= $mensaje_error ?> </span> <br>
+            <?php endif; ?>
             <form action="perfil.php" method="post" enctype="multipart/form-data">
                 <label for="nueva_foto_perfil"> Foto de perfil: </label> <br>
                 <input type="file" name="nueva_foto_perfil"> <br> <br>
@@ -95,7 +99,7 @@
                 <textarea name="nueva_biografia_usuario"><?= $usuario['biografia'] ?></textarea> <br> <br>
                 
                 <button id="boton-cancelar-cambios"> Cancelar </button>
-                <input type="submit" name="guardar" value="GUARDAR CAMBIOS">
+                <input type="submit" name="guardar-cambios" value="GUARDAR CAMBIOS">
             </form>
         </div>
     </div>

@@ -31,7 +31,7 @@
                 $mail->Host = 'smtp.educa.madrid.org';
                 $mail->SMTPAuth = false;
                 $mail->Username = 'malmoroxcabrera@educa.madrid.org';
-                $mail->Password = 'Almoroxii1133';
+                $mail->Password = 'quetelohascreido';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
