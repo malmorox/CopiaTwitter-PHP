@@ -1,6 +1,7 @@
 # Copia de Twitter con PHP <span style="font-size: 18px;">(vanilla)</span>
 
 ## Funcionalidades:
+- ff
     - [x] Registro de usuarios, inicio de sesión y recuerdame (con cookies y tokens).
     - [x] Página de inicio con los tweets de los usuarios donde poder subir tweets.
     - [x] Perfil de usuario donde poder editar tus datos. Listado de tus tweets.
