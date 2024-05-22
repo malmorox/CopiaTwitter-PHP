@@ -1,4 +1,4 @@
-# Copia de Twitter con PHP <span style="font-size: smaller;">(vanilla)</span>
+# Copia de Twitter con PHP <sub>(vanilla)</sub>
 
 - ## Funcionalidades:
     - [x] Registro de usuarios, inicio de sesión y recuerdame (con cookies y tokens).
