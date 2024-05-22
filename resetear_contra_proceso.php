@@ -1,13 +1,13 @@
 <?php
 
-    require_once 'config/tokens.php';
+    require_once 'utils/init.php';
 
     if (!isset($_GET['token'])) {
         header("Location: login.php");
         exit();
     } else {
         $token = htmlspecialchars($_GET['token']);
-        if (!validarTokenReseteo($token)) {
+        if (!validarTokenRecuperacion($token)) {
             $error = "Este enlace de restablecimiento de contraseña no es válido o ha caducado";
         } else {
             header("Location: resetear_contra.php?token=$token");

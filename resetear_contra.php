@@ -4,7 +4,7 @@
 
     $errores = [];
 
-    if (!isset($_GET['token']) || !validarTokenReseteo($_GET['token'])) {
+    if (!isset($_GET['token']) || !validarTokenRecuperacion($_GET['token'])) {
         header("Location: login.php");
         exit();
     } else {

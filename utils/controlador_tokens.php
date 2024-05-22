@@ -31,11 +31,11 @@
             return false;
         }
 
-        $expiracion = time() + TIEMPO_EXPIRACION_PREDETERMINADO;
+        $expiracion = date('Y-m-d H:i:s', (time() + TIEMPO_EXPIRACION_PREDETERMINADO));
         $consumido = VALOR_TOKEN_CONSUMIDO_PREDETERMINADO;
 
         $sqlInsertarToken = "INSERT INTO tokens (token, id_usuario, fecha_validez, consumido) VALUES (:token, :id_usuario, :expiracion, :consumido)";
-        $db->ejecuta($sqlInsertToken, [$token, $id_usuario, $expiracion, $consumido]);
+        $db->ejecuta($sqlInsertarToken, [$token, $id_usuario, $expiracion, $consumido]);
 
         return $db->getExecuted();
     }
