@@ -32,19 +32,18 @@
         }
 
         $expiracion = date('Y-m-d H:i:s', (time() + TIEMPO_EXPIRACION_PREDETERMINADO));
-        $consumido = VALOR_TOKEN_CONSUMIDO_PREDETERMINADO;
 
-        $sqlInsertarToken = "INSERT INTO tokens (token, id_usuario, fecha_validez, consumido) VALUES (:token, :id_usuario, :expiracion, :consumido)";
-        $db->ejecuta($sqlInsertarToken, [$token, $id_usuario, $expiracion, $consumido]);
+        $sqlInsertarToken = "INSERT INTO tokens (token, id_usuario, fecha_validez) VALUES (:token, :id_usuario, :expiracion)";
+        $db->ejecuta($sqlInsertarToken, [$token, $id_usuario, $expiracion]);
 
         return $db->getExecuted();
     }
 
-    function insertarTokenRecuerdameBD($token, $id_usuario, $expiracion, $consumido) {
+    function insertarTokenRecuerdameBD($token, $id_usuario, $expiracion) {
         global $db;
         
-        $sql = "INSERT INTO tokens (token, id_usuario, fecha_validez, consumido) VALUES (:token, :id_usuario, :expiracion, :consumido)";
-        $db->ejecuta($sql, [$token, $id_usuario, $expiracion, $consumido]);
+        $sql = "INSERT INTO tokens (token, id_usuario, fecha_validez) VALUES (:token, :id_usuario, :expiracion)";
+        $db->ejecuta($sql, [$token, $id_usuario, $expiracion]);
     }
 
     function validarTokenRecuperacion($token) {

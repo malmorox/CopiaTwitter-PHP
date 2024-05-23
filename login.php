@@ -31,7 +31,7 @@
                     $token = generarToken();
                     $expiracion = time() + TIEMPO_EXPIRACION_PREDETERMINADO;
 
-                    insertarTokenRecuerdameBD($token, $info_usuario['id'], date('Y-m-d H:i:s', $expiracion), VALOR_TOKEN_CONSUMIDO_PREDETERMINADO);
+                    insertarTokenRecuerdameBD($token, $info_usuario['id'], date('Y-m-d H:i:s', $expiracion));
         
                     setcookie('recuerdame', $token, $expiracion, '/');
                 }
