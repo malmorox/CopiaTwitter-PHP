@@ -9,6 +9,8 @@
     define('VALOR_TOKEN_CONSUMIDO_PREDETERMINADO', 0);
     // Define el número de caracteres predeterminado que tendrá el token
     define("NUMERO_CARACTERES_TOKEN_PREDETERMINADO", 64);
+    // Define el nombre de la cookie que se usará para recordar la sesión
+    define('NOMBRE_COOKIE_RECUERDAME', 'recuerdame');
 
     define('MODIFICAR_TIPO_INFO_NOMBRE', 'nombre');
     define('MODIFICAR_TIPO_INFO_BIOGRAFIA', 'biografia');

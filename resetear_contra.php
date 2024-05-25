@@ -28,7 +28,7 @@
         if (empty($errores)) {
             $reseteo_exitoso = resetearContrasena($token, $nueva_contrasena);
             if ($reseteo_exitoso) {
-                eliminarTokenBD($token);
+                consumirTokenBD($token);
                 $exito = "¡Tu contraseña ha sido modificada exitosamente!";
                 echo "<script>
                         setTimeout(function() {

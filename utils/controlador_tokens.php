@@ -71,14 +71,15 @@
         $nueva_contrasena_hasheada = password_hash($nueva_contrasena, PASSWORD_DEFAULT);
         
         $sqlResetearContra = "UPDATE usuarios SET contrasena = :nueva_contrasena WHERE id = :id_usuario";
-        $db->ejecuta($sqlResetear, [$nueva_contrasena_hasheada, $id_usuario]);
+        $db->ejecuta($sqlResetearContra, [$nueva_contrasena_hasheada, $id_usuario]);
 
         return $db->getExecuted();
     }
 
-    function eliminarTokenBD($token) {
+    function consumirTokenBD($token) {
         global $db;
-        $sql = "DELETE FROM tokens WHERE token = :token";
+
+        $sql = "UPDATE tokens SET consumido = 1 WHERE token = :token";
         $db->ejecuta($sql, $token);
     }
 

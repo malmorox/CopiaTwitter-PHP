@@ -4,12 +4,11 @@
 
     session_destroy();
     
-    if (isset($_COOKIE['recuerdame'])) {
-        $valor_cookie = $_COOKIE['recuerdame'];
-        //marcarTokenConsumido($valor_cookie);
-
-        unset($valor_cookie);
-        setcookie('recuerdame', '', time() - 3600, '/');
+    if (isset($_COOKIE)) {
+        $valor_cookie = $_COOKIE[NOMBRE_COOKIE_RECUERDAME];
+        
+        consumirTokenBD($valor_cookie);
+        destruirCookie(NOMBRE_COOKIE_RECUERDAME);
     }
 
     header("location: login.php");
