@@ -29,7 +29,7 @@
 
                 if ($recordar) {
                     $token = generarToken();
-                    $expiracion = time() + TIEMPO_EXPIRACION_PREDETERMINADO;
+                    $expiracion = time() + TIEMPO_EXPIRACION_RECUERDAME_PREDETERMINADO;
 
                     insertarTokenRecuerdameBD($token, $info_usuario['id'], date('Y-m-d H:i:s', $expiracion));
         

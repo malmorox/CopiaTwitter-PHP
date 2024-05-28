@@ -31,7 +31,7 @@
             return false;
         }
 
-        $expiracion = date('Y-m-d H:i:s', (time() + TIEMPO_EXPIRACION_PREDETERMINADO));
+        $expiracion = date('Y-m-d H:i:s', (time() + TIEMPO_EXPIRACION_CORREO_PREDETERMINADO));
 
         $sqlInsertarToken = "INSERT INTO tokens (token, id_usuario, fecha_validez) VALUES (:token, :id_usuario, :expiracion)";
         $db->ejecuta($sqlInsertarToken, [$token, $id_usuario, $expiracion]);
